@@ -1,0 +1,70 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 20px 34px;
+  width: 100%;
+  min-height: 150px;
+  height: 100%;
+  box-shadow: 0 7px 25px 0 rgba(100, 100, 111, 0.2);
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.card:hover,
+.card:active {
+  background-color: rgba(93, 145, 229, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.title {
+  font-size: 30px;
+  line-height: 100%;
+  color: #282626;
+}
+
+.content {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-family: "Montserrat", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 214%;
+  text-align: right;
+  color: #767676;
+}
+
+.contentItem {
+  display: flex;
+  gap: 3px;
+}
+
+.status {
+  font-weight: 700;
+}
+
+.statusAlive {
+  color: #267504;
+}
+
+.statusDead {
+  color: #820A0A;
+}
+
+.statusUnknown {
+  color: #656EC2;
+}
+
+@media (max-width: 864px) {
+
+  .card {
+    padding: 16px 10px;
+  }
+
+}
