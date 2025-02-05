@@ -1,0 +1,55 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 68px;
+  align-items: center;
+  justify-content: center;
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 128px 20px;
+
+  font-family: "Fira Sans", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.cardsBox {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.cardsBox  > :nth-child(n+3) {
+  grid-column: span 2;
+}
+
+.cardsBox  > *:nth-child(1),
+.cardsBox  > *:nth-child(2) {
+  grid-column: span 3;
+  height: 262px;
+}
+
+@media (max-width: 1200px) {
+
+  .body {
+    padding: 40px 10px;
+    gap: 40px;
+  }
+
+  .cardsBox  > :nth-child(n+3) {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 864px) {
+
+  .cardsBox  > *:nth-child(1),
+  .cardsBox  > *:nth-child(2),
+  .cardsBox  > :nth-child(n+3) {
+    grid-column: span 6;
+    height: auto;
+  }
+}
