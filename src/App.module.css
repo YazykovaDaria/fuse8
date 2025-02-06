@@ -32,6 +32,19 @@
   height: 262px;
 }
 
+.btn {
+  padding: 16px 24px;
+  border: 1px solid #282626;
+  border-radius: 10px;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: rgba(93, 145, 229, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 @media (max-width: 1200px) {
 
   .body {

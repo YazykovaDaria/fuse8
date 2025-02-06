@@ -1,14 +1,14 @@
 import s from './App.module.css'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import Search from './components/search/Search'
 import Card from './components/card/Card'
-
+import fetchGet from './lib/api'
 
 function App() {
   const [cards, setCards] = useState([])
   const [nextUrl, setNextUrl] = useState(null)
 
-  const setData = (cardsData) => {
+  const setData = useCallback((cardsData) => {
     if (cardsData) {
       const { results } = cardsData
       const url = cardsData.info.next
@@ -18,7 +18,24 @@ function App() {
       setCards([])
       setNextUrl(null)
     }
+  }, [])
+
+  const loadCards = async () => {
+    if (!nextUrl) return
+
+    try {
+      const data = await fetchGet(nextUrl)
+      const { results } = data
+      const url = data.info.next
+
+      setNextUrl(url)
+      setCards((prevCards) => [...prevCards, ...results])
+    } catch (error) {
+      console.error(error)
+      return
+    }
   }
+
 
   return (
     <main className={s.body}>
@@ -27,6 +44,8 @@ function App() {
       <section className={s.cardsBox}>
         {cards.length > 0 && cards.map((card) => <Card key={card.id} {...card}></Card>)}
       </section>
+
+      {nextUrl && <button className={s.btn} onClick={loadCards}>Show more</button>}
     </main>
   )
 }
