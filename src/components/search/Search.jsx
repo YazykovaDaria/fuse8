@@ -1,9 +1,10 @@
 import s from './search.module.css'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, memo } from 'react'
 import fetchGet from '../../lib/api'
 import { BASE_URL } from '../../../public/constants'
+import useDebounce from '../../hooks/useDebounce'
 
-const Search = ({setData}) => {
+const Search = memo(function Search ({setData}) {
   const [itemCount, setItemCount] = useState(null)
   const [err, setErr] = useState('')
   const [value, setValue] = useState('')
@@ -13,25 +14,36 @@ const Search = ({setData}) => {
     inputRef.current?.focus()
   }, []);
 
-  const onChange = async(e) => {
-    const value = e.currentTarget.value
-    setValue(value)
 
-    if (value.length > 2) {
-      try {
-        const data = await fetchGet(`${BASE_URL}${value}`)
-        const { count } = data.info
-        setErr('')
-        setItemCount(count)
-        setData(data)
-      } catch (error) {
-        console.log(error);
-        setItemCount(null)
-        setErr('Nothing was found')
-        setData(null)
-      }
+  const getData = async () => {
+    try {
+      const data = await fetchGet(`${BASE_URL}${value.trim().toLowerCase()}`)
+      const { count } = data.info
+      setErr('')
+      setItemCount(count)
+      setData(data)
+    } catch {
+      setItemCount(null)
+      setErr('Nothing was found')
+      setData(null)
     }
   }
+
+  const debouncedRequest = useDebounce(getData, 200);
+
+  const onChange = (e) => {
+    if (value.length < 3) {
+      setData(null)
+      setItemCount('')
+    }
+
+    const newValue = e.target.value;
+    setValue(newValue);
+
+    if (newValue.length > 2) {
+        debouncedRequest(value)
+    }
+  };
 
   return <div className={s.box}>
     <input type="text" className={s.search} placeholder='Search characters...' value={value} onChange={onChange} ref={inputRef}/>
@@ -43,6 +55,6 @@ const Search = ({setData}) => {
 
     {err && <p className={`${s.count} ${s.err}`}>{err}</p>}
   </div>
-}
+})
 
 export default Search
