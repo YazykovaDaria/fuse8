@@ -13,20 +13,20 @@ const Card = (data) => {
 
   return <a href={url}>
     <article className={s.card}>
-    <h3 className={s.title}>{name}</h3>
+      <h3 className={s.title}>{name}</h3>
 
-    <div className={s.content}>
+      <div className={s.content}>
+        <p className={s.contentItem}>
+          <span>Status:</span>
+          <span className={`${s.status} ${statusStyle[status.toLowerCase()]}`}>{status}</span>
+        </p>
 
-      <p className={s.contentItem}>
-        <span>Status:</span>
-        <span className={`${s.status} ${statusStyle[status.toLowerCase()]}`}>{status}</span>
-      </p>
-      <div className={s.contentItem}>
-        <span>Created:</span>
-        <span>{formatDate(created)}</span>
+        <div className={s.contentItem}>
+          <span>Created:</span>
+          <span>{formatDate(created)}</span>
         </div>
-        </div>
-  </article>
+      </div>
+    </article>
   </a>
 }
 
